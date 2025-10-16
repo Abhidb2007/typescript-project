@@ -1,5 +1,10 @@
 import { v4 as uuidV4 } from "uuid";
-
+type Task={
+  id: string
+  title: string
+  completed: boolean
+  createdAt: Date
+}
 
 const list = document.querySelector<HTMLUListElement>("#list")
 const form = document.querySelector("#new-task-form") as HTMLFormElement | null
@@ -9,10 +14,14 @@ form?.addEventListener("submit", e => {
   e.preventDefault()
   if (input?.value == "" || input?.value == null) return
 
-  const task = {
+  const newtask:Task = {
     id: uuidV4(),
     title: input.value,
     completed: false,
     createdAt: new Date()
   }
+  addListItem(newtask)
 })
+function addListItem(task: Task){
+
+}
