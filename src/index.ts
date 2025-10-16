@@ -1,4 +1,6 @@
 import { v4 as uuidV4 } from "uuid";
+
+
 type Task={
   id: string
   title: string
@@ -9,7 +11,7 @@ type Task={
 const list = document.querySelector<HTMLUListElement>("#list")
 const form = document.querySelector("#new-task-form") as HTMLFormElement | null
 const input = document.querySelector<HTMLInputElement>("#new-task-title")
-
+const tasks: Task[] = []
 form?.addEventListener("submit", e => {
   e.preventDefault()
   if (input?.value == "" || input?.value == null) return
@@ -17,19 +19,37 @@ form?.addEventListener("submit", e => {
   const newtask:Task = {
     id: uuidV4(),
     title: input.value,
-    completed: false,
+    completed: true,
     createdAt: new Date()
   }
+  tasks.push(newtask)
+ 
+
   addListItem(newtask)
+  input.value = ""
 })
 function addListItem(task: Task){
   const item=document.createElement("li")
   const label=document.createElement("label")
   const checkbox=document.createElement("input")
+  checkbox.addEventListener("change",()=>{
+    task.completed=checkbox.checked
+    console.log(tasks)
+  })
   checkbox.type="checkbox"
+  checkbox.checked=task.completed
   label.append(checkbox, task.title)
   item.append(label)
   list?.append(item)
+  
 
 
+}
+function savedTasks(){
+  localStorage.setItem("TASKS",JSON.stringify(tasks))
+}
+function loadTasks(): Task[]{
+  const taskJSON=localStorage.getItem("TASKS")
+  if(taskJSON==null) return []
+  return JSON.parse(taskJSON)
 }
