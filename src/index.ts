@@ -23,5 +23,13 @@ form?.addEventListener("submit", e => {
   addListItem(newtask)
 })
 function addListItem(task: Task){
+  const item=document.createElement("li")
+  const label=document.createElement("label")
+  const checkbox=document.createElement("input")
+  checkbox.type="checkbox"
+  label.append(checkbox, task.title)
+  item.append(label)
+  list?.append(item)
+
 
 }
